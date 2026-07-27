@@ -6,7 +6,7 @@ public class SquashStretch : MonoBehaviour
     public float duration = 0.12f;       // 单程时长
     Vector3 baseScale;
 
-    void Start()
+    void Awake()
     {
         baseScale = transform.localScale;
     }

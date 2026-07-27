@@ -301,8 +301,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "UnityEditor.MainToolbarWindow\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 272
-    y: 163
+    x: 0
+    y: 0
     width: 1453
     height: 36
   m_SerializedDataModeController:
@@ -605,8 +605,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Project\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 272
-    y: 738.5
+    x: 0
+    y: 563.5
     width: 1173.5
     height: 206.5
   m_SerializedDataModeController:
@@ -657,8 +657,7 @@ MonoBehaviour:
       m_Data: 51824
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 51510
-    - m_Data: 1000000000
+    - m_Data: 51574
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -692,7 +691,7 @@ MonoBehaviour:
       m_Data: 0
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 51510
+    - m_Data: 51574
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -781,8 +780,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1446.5
-    y: 199
+    x: 1175.5
+    y: 24
     width: 277.5
     height: 746
   m_SerializedDataModeController:
@@ -833,8 +832,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Hierarchy\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 272
-    y: 199
+    x: 0
+    y: 24
     width: 175.5
     height: 513.5
   m_SerializedDataModeController:
@@ -906,8 +905,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Scene\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 448.5
-    y: 199
+    x: 177.5
+    y: 24
     width: 996
     height: 513.5
   m_SerializedDataModeController:
@@ -1482,7 +1481,7 @@ MonoBehaviour:
   m_Position:
     m_Target: {x: 960, y: 540, z: 0}
     speed: 2
-    m_Value: {x: 959.99994, y: 539.99994, z: 0.0000000014486818}
+    m_Value: {x: 960, y: 540, z: 0}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1535,7 +1534,7 @@ MonoBehaviour:
   m_Size:
     m_Target: 1101.4536
     speed: 2
-    m_Value: 1101.4535
+    m_Value: 1101.4536
   m_Ortho:
     m_Target: 1
     speed: 2
