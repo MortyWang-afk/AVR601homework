@@ -7,60 +7,79 @@ public class Spawner : MonoBehaviour
     public float minY = -4f;
     public float maxY = 4f;
 
+    [System.Serializable]
+    public struct Wave
+    {
+        public string waveName;        // 波次名，会显示给玩家
+        public int crowCount;          // 这波放几只
+        public float spawnInterval;    // 每隔几秒出一只
+        public float crowSpeed;        // 这波乌鸦的飞行速度
+        public float dogTargetChance;  // 盯上狗的概率 (0~1)
+    }
+
     [Header("Waves setting")]
-    public int totalWaves = 3;             // 一共几波
-    public int firstWaveCrows = 3;         // 第1波几只
-    public int extraCrowsPerWave = 2;      // 每波比上一波多几只(难度递增,对应PANEL 5)
-    public float spawnInterval = 2f;       // 同一波内,每隔几秒出一只
-    public float timeBetweenWaves = 3f;    // 波与波之间休息几秒
+    public Wave[] waves;               // 波次数组，在 Inspector 里配
+    public float timeBetweenWaves = 3f;
 
     int currentWave = 0;
-    int crowsAlive = 0;                    // 场上还剩几只
+    int crowsAlive = 0;
 
     void Start()
     {
         StartCoroutine(RunWaves());
     }
 
-    IEnumerator RunWaves()
+     IEnumerator RunWaves()
     {
-        while (currentWave < totalWaves)
+        while (currentWave < waves.Length)
         {
+            Wave w = waves[currentWave];
             currentWave++;
-            GameManager.Instance.SetWave(currentWave, totalWaves);
 
-            // 这一波的乌鸦数量:3, 5, 7...
-            int crowCount = firstWaveCrows + (currentWave - 1) * extraCrowsPerWave;
+            GameManager.Instance.SetWave(currentWave, waves.Length);
 
-            // 逐只刷出
-            for (int i = 0; i < crowCount; i++)
+            // ↓ 开场提示：等它播完再刷乌鸦
+            yield return StartCoroutine(
+                GameManager.Instance.ShowMessage(w.waveName, Color.white, 0.6f));
+            // ↑
+
+            for (int i = 0; i < w.crowCount; i++)
             {
-                SpawnCrow();
-                yield return new WaitForSeconds(spawnInterval);
+                SpawnCrow(w);
+                if (i < w.crowCount - 1)
+                    yield return new WaitForSeconds(w.spawnInterval);
             }
 
-            // 等这一波全部被消灭
             while (crowsAlive > 0)
                 yield return null;
 
-            // 波间休息(最后一波后不用休息)
-            if (currentWave < totalWaves)
+            // ↓ 清场提示（最后一波不播，直接进胜利）
+            if (currentWave < waves.Length)
+            {
+                yield return StartCoroutine(
+                    GameManager.Instance.ShowMessage("WAVE CLEAR!", Color.green, 0.5f));
                 yield return new WaitForSeconds(timeBetweenWaves);
+            }
+            // ↑
         }
 
-        // 所有波次清完 → 胜利!
         GameManager.Instance.Win();
     }
 
-    void SpawnCrow()
+    void SpawnCrow(Wave w)
     {
         float y = Random.Range(minY, maxY);
         Vector3 pos = new Vector3(transform.position.x, y, 0);
-        Instantiate(crowPrefab, pos, Quaternion.identity);
+
+        GameObject crowObj = Instantiate(crowPrefab, pos, Quaternion.identity);
+
+        // 把这一波的配置传给乌鸦
+        if (crowObj.TryGetComponent<Crow>(out var crow))
+            crow.Setup(w.crowSpeed, w.dogTargetChance);
+
         crowsAlive++;
     }
-
-    // 乌鸦消失时(被球打死/咬完食物跑了)调用这个
+    // 乌鸦消失时(被球打死/叼完食物跑了)调用这个
     public void CrowRemoved()
     {
         crowsAlive = Mathf.Max(0, crowsAlive - 1);

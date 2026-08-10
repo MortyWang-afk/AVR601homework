@@ -12,6 +12,14 @@ public class Crow : MonoBehaviour
 
     Transform target;
     bool fleeing = false;
+    float dogChance = 0.3f;
+
+    // Spawner 在生成时调用，把这一波的配置传进来
+    public void Setup(float speed, float dogTargetChance)
+    {
+        this.speed = speed;
+        this.dogChance = dogTargetChance;
+    }
 
     void Start()
     {
@@ -19,8 +27,8 @@ public class Crow : MonoBehaviour
         if (healthBar != null)                           
             healthBar.SetHealth(health, maxHealth);     
 
-        // 抽签:30% 概率盯上狗,否则盯食盆
-    string targetTag = (Random.value < 0.3f) ? "Dog" : "Bowl";
+        // 抽签: 概率盯上狗,否则盯食盆
+     string targetTag = (Random.value < dogChance) ? "Dog" : "Bowl";
 
     GameObject go = GameObject.FindWithTag(targetTag);
     if (go != null)

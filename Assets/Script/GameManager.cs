@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections; 
+using TMPro;   
 
 public class GameManager : MonoBehaviour
 {
@@ -12,6 +14,7 @@ public class GameManager : MonoBehaviour
     public Image dogHPBar;
     public Image foodHPBar;
     public Text waveText;
+    public TMP_Text messageText; 
     public GameObject victoryPanel;
     public GameObject gameOverPanel;
 
@@ -64,6 +67,28 @@ public class GameManager : MonoBehaviour
     {
         if (waveText != null)
             waveText.text = "WAVE: " + current + "/" + total;
+    }
+
+    public IEnumerator ShowMessage(string msg, Color color, float duration)
+    {
+        if (messageText == null) yield break;
+
+        messageText.text = msg;
+        messageText.color = color;
+
+        // 闪烁三次
+        for (int i = 0; i < 3; i++)
+        {
+            messageText.gameObject.SetActive(true);
+            yield return new WaitForSecondsRealtime(0.25f);
+            messageText.gameObject.SetActive(false);
+            yield return new WaitForSecondsRealtime(0.15f);
+        }
+
+        // 最后停留一会儿再消失
+        messageText.gameObject.SetActive(true);
+        yield return new WaitForSecondsRealtime(duration);
+        messageText.gameObject.SetActive(false);
     }
 
     public void Win()
