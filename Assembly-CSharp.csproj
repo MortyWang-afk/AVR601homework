@@ -53,7 +53,10 @@
     <Compile Include="Assets/Script/DogController.cs" />
     <Compile Include="Assets/Script/Spawner.cs" />
     <Compile Include="Assets/Script/Ball.cs" />
+    <Compile Include="Assets/Script/SelfDestruct.cs" />
+    <Compile Include="Assets/Script/HealthBarFollow.cs" />
     <Compile Include="Assets/Script/GameManager.cs" />
+    <Compile Include="Assets/Script/BirdhealthBar.cs" />
     <Compile Include="Assets/Script/Crow.cs" />
   </ItemGroup>
   <ItemGroup>
