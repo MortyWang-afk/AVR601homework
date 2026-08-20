@@ -34,6 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6611372529844648454}
+  - {fileID: 6430341203666027638}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6711873683798669790
@@ -83,7 +84,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_MaskInteraction: 0
   m_Sprite: {fileID: 9138344366389885943, guid: fa3eedc39abd14464a41fd49a23b47df, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -108,10 +109,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Crow
   speed: 2
-  fleeSpeed: 3.5
+  fleeSpeed: 6
   maxHealth: 2
   healthBar: {fileID: 1072119636006936687}
   deathEffect: {fileID: 8860314426744390953, guid: c320fc420189c48b6b9b9dc3cbdd096d, type: 3}
+  bowlSpeedMultiplier: 1.5
+  projectilePrefab: {fileID: 4724789943034658320, guid: d4acb700d45c54d5ca73b0df0e0bb083, type: 3}
+  fireInterval: 0.3
+  fireRange: 8
+  projectileDamage: 1
+  spawnOffset: 0.5
+  firePoint: {fileID: 6430341203666027638}
 --- !u!61 &3251622870197059127
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -156,7 +164,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 3.59, y: 2.74}
+  m_Size: {x: 4, y: 3}
   m_EdgeRadius: 0
 --- !u!50 &8952687909312906859
 Rigidbody2D:
@@ -216,6 +224,37 @@ Transform:
   m_Children:
   - {fileID: 7026936565430419636}
   - {fileID: 1755872238003149918}
+  m_Father: {fileID: 6418445427547923660}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3047264628901608620
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6430341203666027638}
+  m_Layer: 0
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6430341203666027638
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3047264628901608620}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.3, y: 0.8, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 6418445427547923660}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4524618367668007868

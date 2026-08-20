@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1117744722775472716}
   - component: {fileID: 8117688840398046676}
   - component: {fileID: 2753838127851883711}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4849,7 +4849,7 @@ GameObject:
   - component: {fileID: 364128565632782012}
   - component: {fileID: -6356576711996183756}
   - component: {fileID: -795004669758504227}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4945,7 +4945,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Ball
   speed: 8
   damage: 1
-  hitEffect: {fileID: 8860314426744390953, guid: c320fc420189c48b6b9b9dc3cbdd096d, type: 3}
+  range: 8
 --- !u!58 &-6356576711996183756
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4981,7 +4981,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Radius: 2.5
 --- !u!50 &-795004669758504227
 Rigidbody2D:
   serializedVersion: 5

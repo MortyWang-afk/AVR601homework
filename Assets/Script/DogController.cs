@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class DogController : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class DogController : MonoBehaviour
     public float hangThreshold = 0.5f;
     public float hangMultiplier = 0.6f;
     bool isHit;
+    bool isInvincible = false; 
+    public float invincibleTime = 3f;  
 
     public int ballDamage = 1;      // 狗的球打多少伤害
 
@@ -63,6 +66,8 @@ public class DogController : MonoBehaviour
             GameObject ball = Instantiate(ballPrefab, spawnPos, rotation);
             if (ball.TryGetComponent<Ball>(out var b))
                 b.damage = ballDamage;
+
+            SFXManager.Instance.PlayVaried(SFXManager.Instance.playerShoot); 
         }
     }
 
@@ -80,6 +85,10 @@ public class DogController : MonoBehaviour
 
             if (squash != null && squash.enabled)
                 squash.JumpStretch();
+            
+            float pitch = 1f + (maxJumps - jumpsLeft) * 0.12f;   // 注意这时 jumpsLeft 已经减过了
+            SFXManager.Instance.Play(SFXManager.Instance.jump, 0.3f, pitch); 
+
         }
 
         // 可变重力:悬停判断放最前,让顶点两侧都有漂浮感
@@ -103,24 +112,67 @@ public class DogController : MonoBehaviour
 
             if (squash != null && squash.enabled)
                 squash.LandSquash();
+            
+            SFXManager.Instance.PlayVaried(SFXManager.Instance.land, 0.2f); 
         }
     }
     void BackOn()=> isHit = false;
 
-    void OnTriggerEnter2D(Collider2D other)
+    public void StartInvincible()
+    {
+        StartCoroutine(InvincibleRoutine());
+    }
+
+    IEnumerator InvincibleRoutine()
+    {
+        isInvincible = true;
+
+         // 无敌期间暂停生成新乌鸦
+        Spawner spawner = FindAnyObjectByType<Spawner>();      
+        if (spawner != null)                                    
+            spawner.spawnPaused = true;                        
+
+
+        // 闪烁:每 0.1 秒切换一次显示
+        float timer = 0f;
+        while (timer < invincibleTime)
+        {
+            sr.enabled = !sr.enabled;       // 取反:显示变隐藏,隐藏变显示
+            yield return new WaitForSeconds(0.1f);
+            timer += 0.1f;
+        }
+
+        sr.enabled = true;      // 结束时确保是显示状态
+        isInvincible = false;
+
+        if (spawner != null)              
+            spawner.spawnPaused = false; 
+    }
+
+    public void TakeDamage(int amount)
+{
+    if (isInvincible) return;
+
+    SFXManager.Instance.Play(SFXManager.Instance.playerHurt); 
+
+    GameManager.Instance.DamageDog(amount);
+    rb.AddForce(Vector2.left * 5f, ForceMode2D.Impulse);
+    isHit = true;
+    Invoke("BackOn", 0.5f);
+    StartInvincible();
+
+    if (TryGetComponent<HitFlash>(out var flash))
+        flash.Flash();
+}
+
+   void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Crow"))
-        {
-            GameManager.Instance.DamageDog(1);
-            rb.AddForce (Vector2.left*5f, ForceMode2D.Impulse);
-            isHit = true;
-            Invoke("BackOn",1f);
+    {
+        if (other.TryGetComponent<Crow>(out var crow))
+            crow.SwitchToBowl();
 
-            if (TryGetComponent<HitFlash>(out var flash))
-                flash.Flash();
-
-            if (other.TryGetComponent<Crow>(out var crow))
-                crow.StartFleeing();
-        }
+        TakeDamage(1);
+    }
     }
 }
